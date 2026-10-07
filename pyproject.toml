@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "seedance-2-5-api"
+version = "0.1.0"
+description = "Python client for the ByteDance Seedance 2.5 video API: submit, poll, download, upload, local validation and cost estimates."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "adrianvossland" }]
+keywords = ["seedance", "seedance-2.5", "bytedance", "video-generation", "text-to-video", "image-to-video", "api-client"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Multimedia :: Video",
+]
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+seedance = "seedance.__main__:main"
+
+[project.urls]
+"Model page" = "https://argolink.io/en/models/seedance-2.5"
+
+[tool.setuptools]
+packages = ["seedance"]
+
+[tool.setuptools.package-data]
+seedance = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
