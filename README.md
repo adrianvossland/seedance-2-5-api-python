@@ -239,6 +239,9 @@ Yes, through `submit({"model": "seedance-2.0", ...})`. Local validation is skipp
 **Is there a webhook?**
 No. The API is poll-only; `wait()` polls every 10 seconds, which matches the documented 10–15 second interval.
 
+**Why does my own `urllib` code get `403` with "error code: 1010"?**
+The API sits behind Cloudflare, which refuses urllib's default `Python-urllib/3.x` User-Agent (checked 2026-10-07; `requests`, Node's `fetch` and `curl` pass). Send any descriptive `User-Agent` header. This client sends `seedance-2-5-api-python/0.1.0`.
+
 **Can I point it at another provider?**
 Set `SEEDANCE_BASE_URL` to any endpoint that implements the same `/v1/videos/generations`, `/v1/videos/{request_id}` and `/content` routes and the `pending`, `done`, `failed`, `expired` statuses.
 

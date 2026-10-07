@@ -24,6 +24,8 @@ def test_text_to_video_posts_the_documented_body(api, client):
     call = api.calls[0]
     assert call["url"] == "https://api.test/v1/videos/generations"
     assert call["headers"]["authorization"] == "Bearer test-key"
+    # urllib's default "Python-urllib/3.x" agent is refused by the API's Cloudflare front (403, error 1010)
+    assert call["headers"]["user-agent"].startswith("seedance-2-5-api-python/")
     assert call["json"] == {
         "model": "seedance-2.5", "prompt": "a red fox in snow", "duration": 8,
         "resolution": "1080p", "aspect_ratio": "9:16", "generate_audio": True,

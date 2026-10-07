@@ -31,6 +31,9 @@ from .errors import (
 from .jobs import DONE, Job
 
 DEFAULT_BASE_URL = "https://argolink.io/v1"
+# The API is behind Cloudflare, which refuses urllib's default "Python-urllib/3.x"
+# User-Agent with 403 (error 1010); every request therefore names this client.
+USER_AGENT = "seedance-2-5-api-python/0.1.0"
 Media = Union[str, os.PathLike]
 JobRef = Union[Job, str]
 CHUNK = 1 << 20
@@ -84,6 +87,7 @@ class Seedance:
         for attempt in range(self.max_retries + 1):
             request = urllib.request.Request(self.base_url + path, data=data, method=method)
             request.add_header("Authorization", f"Bearer {self.api_key}")
+            request.add_header("User-Agent", USER_AGENT)
             if data is not None:
                 request.add_header("Content-Type", "application/json")
             try:
@@ -207,6 +211,7 @@ class Seedance:
         })
         put = urllib.request.Request(ticket["upload_url"], data=source.read_bytes(), method="PUT")
         put.add_header("Content-Type", content_type)
+        put.add_header("User-Agent", USER_AGENT)
         try:
             self._open(put, timeout=max(self.timeout, 300.0)).close()
         except urllib.error.HTTPError as error:
